@@ -1,0 +1,101 @@
+<div class="flex justify-center items-center">
+  <div class="w-full max-w-md  p-6">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+      {{ isSignUpMode ? 'Sign Up' : 'Sign In' }}
+    </h2>
+    <form (ngSubmit)="onSubmit()" [formGroup]="authForm" class="space-y-4">
+      <!-- Email -->
+      <div>
+        <p-floatlabel variant="on">
+          <input id="email" pInputText formControlName="email" class="w-full mt-1 p-inputtext-sm" />
+          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        </p-floatlabel>
+        <small *ngIf="authForm.get('email')?.invalid && authForm.get('email')?.touched" class="text-red-500">
+          Valid email is required.
+        </small>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <p-floatlabel variant="on">
+          <p-password id="password" formControlName="password" class="w-full mt-1" [feedback]="isSignUpMode"
+            [toggleMask]="true"></p-password>
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        </p-floatlabel>
+
+        <small *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched" class="text-red-500">
+          Password must be at least 6 characters.
+        </small>
+      </div>
+
+      <!-- Additional Fields for Sign Up -->
+      <div *ngIf="isSignUpMode">
+        <!-- First Name -->
+        <div>
+          <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
+          <input id="firstName" pInputText formControlName="firstName" class="w-full mt-1 p-inputtext-sm"
+            placeholder="Enter your first name" />
+          <small *ngIf="authForm.get('firstName')?.invalid && authForm.get('firstName')?.touched" class="text-red-500">
+            First name is required.
+          </small>
+        </div>
+
+        <!-- Last Name -->
+        <div>
+          <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+          <input id="lastName" pInputText formControlName="lastName" class="w-full mt-1 p-inputtext-sm"
+            placeholder="Enter your last name" />
+          <small *ngIf="authForm.get('lastName')?.invalid && authForm.get('lastName')?.touched" class="text-red-500">
+            Last name is required.
+          </small>
+        </div>
+
+        <!-- Address -->
+        <div>
+          <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+          <input id="address" pInputText formControlName="address" class="w-full mt-1 p-inputtext-sm"
+            placeholder="Enter your address" />
+          <small *ngIf="authForm.get('address')?.invalid && authForm.get('address')?.touched" class="text-red-500">
+            Address is required.
+          </small>
+        </div>
+
+        <!-- Zip -->
+        <div>
+          <label for="zip" class="block text-sm font-medium text-gray-700">Zip</label>
+          <input id="zip" pInputText formControlName="zip" class="w-full mt-1 p-inputtext-sm"
+            placeholder="Enter your zip code" />
+          <small *ngIf="authForm.get('zip')?.invalid && authForm.get('zip')?.touched" class="text-red-500">
+            Zip code is required.
+          </small>
+        </div>
+
+        <!-- State -->
+        <div>
+          <label for="state" class="block text-sm font-medium text-gray-700">State</label>
+          <input id="state" pInputText formControlName="state" class="w-full mt-1 p-inputtext-sm"
+            placeholder="Enter your state" />
+          <small *ngIf="authForm.get('state')?.invalid && authForm.get('state')?.touched" class="text-red-500">
+            State is required.
+          </small>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex items-center gap-4">
+        <p-button label="Cancel" (click)="closeDialog()" severity="danger" [raised]="true"
+          class="w-full  text-white font-medium py-2 px-4 rounded" />
+        <p-button [raised]="true" (click)="onSubmit()" label="{{ isSignUpMode ? 'Sign Up' : 'Sign In' }}"
+          class="w-full text-white font-medium py-2 px-1 rounded" severity="success"
+          [disabled]="authForm.invalid" />
+      </div>
+    </form>
+
+    <!-- Toggle Mode -->
+    <div class="text-center mt-4">
+      <button type="button" class="text-blue-500 hover:underline" (click)="toggleMode()">
+        {{ isSignUpMode ? 'Already have an account? Sign In' : "Don't have an account? Sign Up" }}
+      </button>
+    </div>
+  </div>
+</div>
