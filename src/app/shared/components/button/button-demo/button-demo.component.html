@@ -1,7 +1,1 @@
-<p>button-demo works!</p>
-
-
-
-<div class="card flex justify-center">
-    <p-button label="Check" />
-</div>
+ <p-button class="justify-center mt-2" [severity]="btnSeverity" rounded="true" [label]="btnText()" [raised]="isRaised()" (onClick)="onBtnClick($event)"/>

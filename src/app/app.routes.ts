@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ProductsComponent } from './pages/products-old/products.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './shared/components/home/home/home.component';
+import { AllAboutCommunicationComponent } from './pages/all-about-communication/all-about-communication.component';
 
 export const routes: Routes = [
     {
@@ -11,11 +12,11 @@ export const routes: Routes = [
     {
         path: 'products',
         component: ProductsComponent
-    }
-    // {
-    //     path: 'my-orders',
-    //     component: MyProductComponent
-    // },
+    },
+    {
+        path: 'communication',
+        component: AllAboutCommunicationComponent
+    },
     // // {
     // //     path: 'my-products',
     // //     component: MyProductComponent

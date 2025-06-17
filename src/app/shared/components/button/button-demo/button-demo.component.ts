@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ButtonModule } from 'primeng/button'
+import { Component, input, Input, output } from '@angular/core';
+import { ButtonModule, ButtonSeverity } from 'primeng/button'
 
 @Component({
   selector: 'app-button-demo',
@@ -8,5 +8,12 @@ import { ButtonModule } from 'primeng/button'
   styleUrl: './button-demo.component.css'
 })
 export class ButtonDemoComponent {
+  @Input() btnSeverity: ButtonSeverity = 'help'; 
+  btnText = input<string>('Default Text');
+  isRaised = input<boolean>(false);
+  clickEvent = output<any>();
 
+  onBtnClick(event: any) {
+    this.clickEvent.emit(event)
+  }
 }

@@ -7,12 +7,11 @@ import { BigBasketService } from './shared/services/big-basket.service';
 import { Constants } from './shared/constants/constant';
 import { LocalStorageService } from './shared/services/local-storage.service';
 import { FooterComponent } from './shared/components/footer/footer/footer.component';
-import { ButtonDemoComponent } from "./shared/components/button/button-demo/button-demo.component";
 import { HeaderComponent } from "./shared/components/header/header/header.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, FooterComponent, RouterLink, ButtonDemoComponent, HeaderComponent],
+  imports: [RouterOutlet, FormsModule, FooterComponent, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

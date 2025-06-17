@@ -1,0 +1,40 @@
+<div
+    class="bg-amber-50 rounded-lg px-3 py-4 ring shadow-xl ring-gray-900/5 scroll-auto min-w-[550px] max-w-[550px] max-h-[600px] min-h-[300px] text-gray-800">
+    <h1>Child</h1>
+    <div>{{msgFromParent}}</div>
+
+    <br />
+    <p>Hip!</p>
+    <ng-template #sharedElement>
+        <p>Hip!</p>
+    </ng-template>
+    <p>Hooray!</p>
+
+    
+    <ng-template #sharedElement2>
+        <p>Keep Going!!</p>
+    </ng-template>
+
+
+
+    @switch (templateInput()) {
+    @case ('Template A') {
+    <ng-container *ngTemplateOutlet="sharedElement">
+    </ng-container>
+    }
+    @case ('Template B') {
+    <ng-container *ngTemplateOutlet="sharedElement2"></ng-container>
+    }
+
+    @case ('Template C') {
+    <ng-container>
+        <h2>Read about ng-container, ng-template, and ngTemplateOutlet</h2>
+    </ng-container>
+    }
+    @default {
+    <ng-container>
+        <h1>HELOO LKJDSOIJFOISDJFOIDJ</h1>
+    </ng-container>
+    }
+    }
+</div>

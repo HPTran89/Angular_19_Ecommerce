@@ -1,0 +1,22 @@
+<div class="flex justify-between">
+    <div
+        class="bg-amber-50 rounded-lg px-3 py-4 ring shadow-xl ring-gray-900/5  scroll-auto min-w-[550px] max-w-[550px] max-h-[600px] min-h-[300px] text-gray-800 flex flex-col">
+        <label for="msg">Send Message To Child</label>
+        <input class="bg-gray-800 rounded-xl px-3 py-3 text-white" placeholder="Enter Your Message..." type="text"
+            name="msg" [(ngModel)]="userInput">
+        <p-button class="justify-center mt-2 mb-2" severity="contrast" rounded="true" label="Send Message" raised="true"
+            (click)="sendMsgToChild()" />
+
+        <!-- <p-select [options]="templates" [(ngModel)]="selectTemplate" [checkmark]="true" optionLabel="name" [showClear]="true" placeholder="Select a Template" class="w-full md:w-56" /> -->
+         <select  [(ngModel)]="selectTemplate">
+            <option selected></option>
+            <option value="Template A">Template A</option>
+            <option value="Template B">Template B</option>
+            <option value="Template C">Template C</option>
+         </select>
+        {{selectTemplate}}
+    </div>
+
+    <app-p2c1-child [msgFromParent]="msgToChild" [templateInput]="selectTemplate"/>
+
+</div>
