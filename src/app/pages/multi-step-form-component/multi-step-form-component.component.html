@@ -1,0 +1,124 @@
+<div class="w-full m-auto p-4 flex flex-col gap-4">
+    <form [formGroup]="form" (submit)="onSubmit()">
+        
+    <p-stepper [value]="currentStep()">
+        <p-step-item [value]="1">
+            <!-- Step 1: Personal Info -->
+            <p-step>Personal Info</p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div [formGroup]="personalGroup">
+                        <div class="p-field">
+                            <label for="fullName">Full Name</label>
+                            <input id="fullName" pInputText formControlName="fullName" />
+                            <small *ngIf="personalGroup.get('fullName')?.hasError('required')">Full Name is
+                                required.</small>
+                        </div>
+
+                        <div class="p-field">
+                            <label for="email">Email</label>
+                            <input id="email" pInputText formControlName="email" />
+                            <small *ngIf="personalGroup.get('email')?.hasError('required')">Email is required.</small>
+                            <small *ngIf="personalGroup.get('email')?.hasError('email')">Invalid email format.</small>
+                            <small *ngIf="personalGroup.get('email')?.hasError('invalidDomain')">Must end with
+                                &#64;example.com</small>
+                        </div>
+
+                        <div class="p-field">
+                            <label for="age">Age</label>
+                            <input id="age" type="number" pInputNumber formControlName="age" />
+                            <small *ngIf="personalGroup.get('age')?.hasError('required')">Age is required.</small>
+                            <small *ngIf="personalGroup.get('age')?.hasError('min')">Must be at least 18.</small>
+                        </div>
+
+                        <!-- <div class="actions">
+                            <button pButton label="Next" (click)="nextStep()"
+                                [disabled]="personalGroup.invalid"></button>
+                        </div> -->
+                    </div>
+                    <div class="py-6">
+                        <p-button label="Next" (onClick)="activateCallback(2)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+        <p-step-item [value]="2">
+            <p-step>Header II</p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-col h-48">
+                        <div
+                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
+                            Content II
+                        </div>
+                    </div>
+                    <div class="flex py-6 gap-2">
+                        <p-button label="Back" severity="secondary" (onClick)="activateCallback(1)" />
+                        <p-button label="Next" (onClick)="activateCallback(3)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+        <p-step-item [value]="3">
+            <p-step>Header III</p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-col h-48">
+                        <div
+                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
+                            Content III
+                        </div>
+                    </div>
+                    <div class="py-6">
+                        <p-button label="Back" severity="secondary" (onClick)="activateCallback(2)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+    </p-stepper>
+
+    </form>
+    <!-- Step 2: Preferences -->
+    <div *ngIf="currentStep() === 1" [formGroup]="preferencesGroup">
+        <div class="p-field">
+            <label>Gender</label>
+            <div class="p-formgroup-inline">
+                <p-radioButton name="gender" value="male" formControlName="gender" label="Male"></p-radioButton>
+                <p-radioButton name="gender" value="female" formControlName="gender" label="Female"></p-radioButton>
+                <p-radioButton name="gender" value="other" formControlName="gender" label="Other"></p-radioButton>
+            </div>
+        </div>
+
+        <div class="p-fieldset" formGroupName="hobbies">
+            <legend>Hobbies</legend>
+            <p-checkbox label="Sports" formControlName="sports" [binary]="true"></p-checkbox>
+            <p-checkbox label="Reading" formControlName="reading" [binary]="true"></p-checkbox>
+            <p-checkbox label="Traveling" formControlName="traveling" [binary]="true"></p-checkbox>
+        </div>
+
+        <div class="p-field">
+            <label for="country">Country</label>
+            <p-dropdown [options]="countries" [autoDisplayFirst]="false" placeholder="Select a Country"
+                formControlName="country" [style]="{ width: '100%' }">
+            </p-dropdown>
+        </div>
+
+        <div class="actions">
+            <button pButton label="Back" class="p-button-secondary" (click)="prevStep()"></button>
+            <button pButton label="Next" (click)="nextStep()" [disabled]="preferencesGroup.invalid"></button>
+        </div>
+    </div>
+
+    <!-- Step 3: Terms -->
+    <!-- <div *ngIf="currentStep() === 2" [formGroup]="getTerms()">
+    <p-checkbox binary="true" formControlName="acceptTerms" label="I accept the Terms & Conditions"></p-checkbox>
+    <small *ngIf="terms.get('acceptTerms')?.hasError('required')">You must accept the terms.</small>
+
+    <div class="actions">
+      <button pButton label="Back" class="p-button-secondary" (click)="prevStep()"></button>
+      <button pButton label="Submit" class="p-button-success" (click)="onSubmit()" [disabled]="form.invalid"></button>
+    </div>
+  </div> -->
+</div>
