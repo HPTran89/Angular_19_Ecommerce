@@ -3,6 +3,7 @@ import { ProductsComponent } from './pages/products-old/products.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './shared/components/home/home/home.component';
 import { AllAboutCommunicationComponent } from './pages/all-about-communication/all-about-communication.component';
+import { MultiStepFormComponentComponent } from './pages/multi-step-form-component/multi-step-form-component.component';
 
 export const routes: Routes = [
     {
@@ -17,10 +18,10 @@ export const routes: Routes = [
         path: 'communication',
         component: AllAboutCommunicationComponent
     },
-    // // {
-    // //     path: 'my-products',
-    // //     component: MyProductComponent
-    // // },
+    {
+        path: 'identification-form',
+        component: MultiStepFormComponentComponent
+    },
     // {
     //     path: 'my-products/:id',
     //     loadChildren: () => import('./pages/my-products/my-product/my-product.component').then(m => m.MyProductComponent)

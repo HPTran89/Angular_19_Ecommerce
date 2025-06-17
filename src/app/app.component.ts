@@ -8,10 +8,11 @@ import { Constants } from './shared/constants/constant';
 import { LocalStorageService } from './shared/services/local-storage.service';
 import { FooterComponent } from './shared/components/footer/footer/footer.component';
 import { HeaderComponent } from "./shared/components/header/header/header.component";
+import {  DividerModule } from 'primeng/divider';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, FooterComponent, HeaderComponent],
+  imports: [RouterOutlet, FormsModule, FooterComponent, HeaderComponent, DividerModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
