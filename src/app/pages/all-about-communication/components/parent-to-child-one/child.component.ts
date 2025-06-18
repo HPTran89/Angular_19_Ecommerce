@@ -9,6 +9,6 @@ import { Component, input, Input } from '@angular/core';
 })
 export class ChildComponent {
   @Input() msgFromParent: string = 'waiting on a message from parent';
-  templateInput = input<any>();
+  templateInput = input<string>();
 
 }
