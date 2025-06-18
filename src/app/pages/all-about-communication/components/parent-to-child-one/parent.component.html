@@ -7,14 +7,14 @@
         <p-button class="justify-center mt-2 mb-2" severity="contrast" rounded="true" label="Send Message" raised="true"
             (click)="sendMsgToChild()" />
 
-        <!-- <p-select [options]="templates" [(ngModel)]="selectTemplate" [checkmark]="true" optionLabel="name" [showClear]="true" placeholder="Select a Template" class="w-full md:w-56" /> -->
-         <select  [(ngModel)]="selectTemplate">
+         <p-select [options]="templates" [(ngModel)]="selectTemplate"  [checkmark]="true" optionLabel="name" optionValue="value" [showClear]="true" placeholder="Select a Template" class="w-full md:w-56"/>
+        <!-- <select  class="w-full md:w-56"  p-select  [(ngModel)]="selectTemplate">
             <option selected></option>
             <option value="Template A">Template A</option>
             <option value="Template B">Template B</option>
             <option value="Template C">Template C</option>
          </select>
-        {{selectTemplate}}
+        {{ selectTemplate }} -->
     </div>
 
     <app-p2c1-child [msgFromParent]="msgToChild" [templateInput]="selectTemplate"/>

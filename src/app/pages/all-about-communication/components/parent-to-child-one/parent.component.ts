@@ -14,13 +14,16 @@ import { SelectModule } from 'primeng/select';
 export class ParentComponent implements OnInit{
   userInput: string = '';
   msgToChild: string ='';
-
-  templates: {}[] = [{name: "Template A"}, {name: "Template B"}, {name:"Template C"}];
-  selectTemplate! : {};
+templates: {}[] = [
+  { name: 'No Template', value: undefined },
+  { name: 'Template A', value: 'Template A' },
+  { name: 'Template B', value: 'Template B' },
+  { name: 'Template C', value: 'Template C' }
+];
+  selectTemplate: string | undefined;
 
   ngOnInit(): void {
   }
-  
   
   sendMsgToChild(): void {
    this.msgToChild = this.userInput
