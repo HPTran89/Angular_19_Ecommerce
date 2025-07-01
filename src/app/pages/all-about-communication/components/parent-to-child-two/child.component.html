@@ -1,0 +1,13 @@
+<div class="bg-amber-50 rounded-lg px-3 py-4 ring shadow-xl ring-gray-900/5 scroll-auto min-w-[550px] max-w-[550px] max-h-[600px] min-h-[300px] text-gray-800 flex flex-col ">
+    <h1 class="text-center w-full">Child</h1>
+    <p>clicking the button below will give you access to the view's button element</p>
+    <app-button-demo [btnSeverity]="btnSeverity" btnText="iosdjfoi" [isRaised]="isRaised" (clickEvent)="handleBtnClick()"/>
+
+    <p-button #mySpecialBtn class="justify-center mt-2 mb-2" severity="contrast" rounded="true" label="Send Message" raised="true" (click)="childButtonClick($event)"/>  
+    <p>{{childButtonText()}}</p>
+
+    <ng-content select=[name]>Content 1</ng-content>
+    <button type="button" class="border border-black"> Hello, <ng-content #mySpecialSpan></ng-content></button>  
+    
+
+</div>

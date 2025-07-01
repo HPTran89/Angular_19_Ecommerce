@@ -15,7 +15,11 @@ export class ApiHandlerService implements IApiBaseActions {
     throw new Error('Method not implemented.');
   }
   GetAll(url: string, params?: ParamsType): Observable<any> {
-    throw new Error('Method not implemented.');
+    return this.httpClient
+    .get(url, { params: this.createParams(params) })
+    .pipe(
+      catchError(error => this.handleError(error))
+    );
   }
   Post(url: string, data: unknown, params?: ParamsType): Observable<any> {
     throw new Error('Method not implemented.');

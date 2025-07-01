@@ -5,12 +5,11 @@ import { ButtonModule } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
 import { SelectButton } from 'primeng/selectbutton';
-import { Rating } from 'primeng/rating';
 
 const BASE_URL = 'https://jsonplaceholder.typicode.com/todos/';
 @Component({
   selector: 'app-home',
-  imports: [ CommonModule, DataView, Rating,  ButtonModule, Tag, SelectButton,FormsModule ],
+  imports: [ CommonModule, DataView,  ButtonModule, Tag, SelectButton,FormsModule ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
