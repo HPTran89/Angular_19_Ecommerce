@@ -1,0 +1,19 @@
+<div class="flex justify-between">
+    <div
+        class="bg-amber-50 rounded-lg px-3 py-4 ring shadow-xl ring-gray-900/5  scroll-auto min-w-[550px] max-w-[550px] max-h-[600px] min-h-[300px] text-gray-800 flex flex-col">
+        <label for="msg">Parent View</label>
+        <input class="bg-gray-800 rounded-xl px-3 py-3 text-white" placeholder="Enter Your Message..." type="text"
+            name="msg">
+        <p-button class="justify-center mt-2 mb-2" severity="contrast" rounded="true" label="Calling Child's Method" raised="true" (click)="callingChildMethod()"/> 
+        <p-button class="justify-center mt-2 mb-2" severity="contrast" rounded="true" label="Change Child Button Name" raised="true" (click)="changeChildBtnText()"/>   
+    </div>
+    <app-p2cDirectAccess-child>
+        <!-- <span #name1>HELLO VIETNAM 1</span>
+        <span>HELLO VIETNAM 2</span>
+        <span #name3>HELLO VIETNAM 3</span>
+        <span #btn>HELLO VIETNAM 3</span> -->
+        <div name>HELLO VIETNAM</div>
+        <!-- <span newContent>sdfdsf</span> -->
+        <span #mySpecialSpan></span>
+    </app-p2cDirectAccess-child>
+</div>
