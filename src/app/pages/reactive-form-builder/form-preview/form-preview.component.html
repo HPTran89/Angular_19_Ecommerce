@@ -1,0 +1,20 @@
+ <div class="preview-header">Live Form Preview</div>
+    <div class="preview-content">
+      @if (formState.canvasItems().length > 0) {
+        <div class="form-container" [formGroup]="formState.formGroup()">
+          <!-- We could render the real form here in the future -->
+        </div>
+
+        <div class="output-section">
+          <strong>FormGroup Structure:</strong>
+          <pre>{{ formState.formGroup().controls | json }}</pre>
+        </div>
+        
+        <div class="output-section">
+          <strong>Form Value (Live):</strong>
+          <pre>{{ formState.formValue() | json }}</pre>
+        </div>
+      } @else {
+        <p class="no-items-message">The form is empty.</p>
+      }
+    </div>

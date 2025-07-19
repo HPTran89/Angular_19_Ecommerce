@@ -1,0 +1,54 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbox-header {
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-bottom: 1px solid #e8e8e8;
+  color: #333;
+}
+
+.toolbox-items {
+  padding: 0.5rem;
+  flex-grow: 1;
+}
+
+.toolbox-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  margin: 0.5rem;
+  background-color: #fafafa;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  cursor: grab;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.toolbox-item:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.item-icon {
+  margin-right: 0.75rem;
+  color: #888;
+}
+
+.item-name {
+  font-size: 0.9rem;
+}
