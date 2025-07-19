@@ -1,0 +1,25 @@
+:host {
+    display: block;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f0f2f5;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: 280px 1fr 320px;
+    gap: 1rem;
+    padding: 1rem;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.toolbox-panel,
+.canvas-panel,
+.preview-panel {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    overflow-y: auto;
+}

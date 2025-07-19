@@ -22,6 +22,10 @@ export const routes: Routes = [
         path: 'identification-form',
         component: MultiStepFormComponentComponent
     },
+    {
+        path: 'reactive-form-builder',
+        loadComponent: () => import('./pages/reactive-form-builder/reative-form-builder/reative-form-builder.component').then(m => m.ReativeFormBuilderComponent)
+    }
     // {
     //     path: 'my-products/:id',
     //     loadChildren: () => import('./pages/my-products/my-product/my-product.component').then(m => m.MyProductComponent)

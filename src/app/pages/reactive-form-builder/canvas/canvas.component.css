@@ -1,0 +1,107 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+.canvas-header {
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-bottom: 1px solid #e8e8e8;
+  color: #333;
+}
+.canvas-drop-zone {
+  flex-grow: 1;
+  padding: 1rem;
+  min-height: 200px;
+  transition: background-color 0.2s;
+}
+.cdk-drop-list-dragging {
+  background-color: #e6f7ff;
+}
+.empty-canvas-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #aaa;
+  font-style: italic;
+  border: 2px dashed #d9d9d9;
+  border-radius: 4px;
+  padding: 2rem;
+}
+
+/* Styles for individual items on the canvas */
+.canvas-item-wrapper {
+  margin-bottom: 0.75rem;
+}
+.canvas-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}
+.canvas-item.is-group {
+  border-color: #1890ff;
+  background-color: #f7faff;
+}
+.item-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.item-content.checkbox {
+  flex-direction: row;
+  align-items: center;
+}
+.item-content label, .item-content .label-text {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+.item-content.checkbox label {
+  margin-bottom: 0;
+  margin-left: 0.5rem;
+}
+.item-content input[type='text'] {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+.item-handle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: grab;
+  color: #aaa;
+}
+.cdk-drag-placeholder {
+  opacity: 0.4;
+}
+.cdk-drag-preview .canvas-item {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* Group specific styles */
+.group-title {
+  color: #1890ff;
+  margin-bottom: 1rem;
+  display: block;
+}
+.group-drop-zone {
+  background-color: #fff;
+  min-height: 80px;
+  padding: 0.5rem;
+  border: 1px dashed #b1d9ff;
+  border-radius: 4px;
+}
+.empty-group-message {
+  text-align: center;
+  color: #aaa;
+  padding: 1rem;
+}

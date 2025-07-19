@@ -1,0 +1,15 @@
+ <div class="toolbox-header">Toolbox</div>
+    <div
+      cdkDropList
+      id="toolbox-list"
+      [cdkDropListData]="toolboxItems()"
+      [cdkDropListConnectedTo]="['canvas-list']"
+      class="toolbox-items"
+    >
+      @for (item of toolboxItems(); track item.type) {
+        <div class="toolbox-item" [cdkDragData]="item" cdkDrag>
+          <span class="item-icon">⠿</span>
+          <span class="item-name">{{ item.name }}</span>
+        </div>
+      }
+    </div>

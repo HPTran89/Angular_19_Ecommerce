@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+.preview-header {
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-bottom: 1px solid #e8e8e8;
+  color: #333;
+}
+.preview-content {
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+.output-section {
+  margin-bottom: 1.5rem;
+}
+.output-section strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+pre {
+  background-color: #f7f7f7;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-size: 0.8rem;
+  max-height: 250px;
+  overflow-y: auto;
+}
+.no-items-message {
+  color: #888;
+  font-style: italic;
+}
