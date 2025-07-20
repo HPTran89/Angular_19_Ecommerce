@@ -22,7 +22,7 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-canvas',
   standalone: true,
-  imports: [CommonModule, DragDropModule, ButtonDemoComponent, ButtonModule],
+  imports: [CommonModule, DragDropModule, ButtonModule],
   // We will use a recursive template via ng-template
   templateUrl:'./canvas.component.html',
   styleUrl: './canvas.component.css',
@@ -56,12 +56,21 @@ export class CanvasComponent {
     }
   }
 
-   deleteControl(item: any) : void {
-    console.log(item);
-    console.log(this.formState.canvasItems());
+  /**
+   * Recursively removes an item by id from the canvas (including nested groups)
+   */
+  private removeItemById(items: CanvasItem[], id: string): CanvasItem[] {
+    return items
+      .filter(item => item.id !== id)
+      .map(item =>
+        item.type === 'form-group'
+          ? { ...item, children: this.removeItemById(item.children, id) }
+          : item
+      );
+  }
 
-
-      // this.formState.updateItems([...this.formState.canvasItems()]);
-    // alert("delete")
+  deleteControl(item: CanvasItem): void {
+    const updated = this.removeItemById(this.formState.canvasItems(), item.id);
+    this.formState.updateItems(updated);
   }
 }
