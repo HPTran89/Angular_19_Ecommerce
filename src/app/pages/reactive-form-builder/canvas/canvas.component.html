@@ -1,22 +1,16 @@
-
 <div class="canvas-header">Form Canvas</div>
-<div
-  cdkDropList
-  id="canvas-list"
-  [cdkDropListData]="formState.canvasItems()"
-  [cdkDropListConnectedTo]="formState.canvasDropListIds()"
-  (cdkDropListDropped)="onDrop($event)"
-  class="canvas-drop-zone"
->
-  @for (item of formState.canvasItems(); track item.id) {
-    <div class="canvas-item-wrapper" cdkDrag>
-      <!-- Using a template to render items, allows for recursion -->
-      <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
-    </div>
+<div cdkDropList id="canvas-list" [cdkDropListData]="formState.canvasItems()"
+  [cdkDropListConnectedTo]="formState.canvasDropListIds()" (cdkDropListDropped)="onDrop($event)"
+  class="canvas-drop-zone">
+  @for (item of formState.canvasItems(); track item.baseCanvasItemId) {
+  <div class="canvas-item-wrapper" cdkDrag>
+    <!-- Using a template to render items, allows for recursion -->
+    <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+  </div>
   } @empty {
-    <div class="empty-canvas-message">
-      Drop items from the toolbox here
-    </div>
+  <div class="empty-canvas-message">
+    Drop items from the toolbox here
+  </div>
   }
 </div>
 
@@ -25,67 +19,130 @@
   <div class="canvas-item" [class.is-group]="item.type === 'form-group' || item.type === 'grid-layout'">
     <!-- Render based on item type -->
     @switch (item.type) {
-      @case ('text-input') {
-        <div class="item-content">
-          <label>{{ item.label }}</label>
-          <input type="text" [placeholder]="item.placeholder" disabled />
+    @case ('text-input') {
+    <div class="item-content">
+      <label>{{ item.label }}</label>
+      <input type="text" [placeholder]="item.placeholder" [title]="item.title"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition mt-2" />
+    </div>
+    }
+    @case ('tel') {
+    <div class="item-content">
+      <label>{{ item.label }}</label>
+      <input type="tel" [placeholder]="item.placeholder" [title]="item.title"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition mt-2" />
+    </div>
+    }
+    @case ('email') {
+    <div class="item-content">
+      <label>Email</label>
+      <input type="email"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition mt-2" />
+    </div>
+    }
+    @case ('range') {
+    <div class="item-content">
+      <label>Range</label>
+      <input type="range" [min]="item.min" [max]="item.max" [step]="item.step" class="w-full accent-blue-500" />
+    </div>
+    }
+    @case ('textarea') {
+    <div class="item-content">
+      <label>Textarea</label>
+      <textarea [cols]="item.cols" [rows]="item.rows"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition resize-none mt-2"></textarea>
+    </div>
+    }
+    @case ('date') {
+    <div class="item-content">
+      <label>Date</label>
+      <input type="date"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition mt-2" />
+    </div>
+    }
+    @case ('file') {
+    <div class="item-content">
+      <label>File</label>
+      <input type="file" [accept]="item.accept"
+        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+    </div>
+    }
+    @case ('number') {
+    <div class="item-content">
+      <label>Number</label>
+      <input type="number"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition mt-2" />
+    </div>
+    }
+    @case ('checkbox') {
+    <div class="item-content checkbox">
+      <input type="checkbox" disabled class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500" />
+      <label>{{ item.label }}</label>
+    </div>
+    }
+    @case ('radio') {
+    <div class=" flex items-center gap-2">
+      <input class="form-check-input rounded-full border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500"
+        type="radio" id="radio-{{item.baseCanvasItemId || ''}}" />
+      <label [for]="'radio-' + (item.baseCanvasItemId || '')" class="ml-1 text-gray-700">{{ item.label || 'Radio'
+        }}</label>
+    </div>
+    }
+    @case ('label') {
+    <div class="item-content">
+      <label>{{ item.text }}</label>
+      <input
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition mt-2"
+        type="text" placeholder="Add your text here" />
+    </div>
+    }
+    @case ('form-group') {
+    <div class="item-content group-content">
+      <strong class="group-title">{{ item.formGroupName }}</strong>
+      <!-- This is the nested drop zone -->
+      <div cdkDropList [id]="item.baseCanvasItemId" [cdkDropListData]="item.children"
+        [cdkDropListConnectedTo]="formState.canvasDropListIds()" (cdkDropListDropped)="onDrop($event)"
+        class="group-drop-zone">
+        @for (child of item.children; track child.baseCanvasItemId) {
+        <div class="canvas-item-wrapper" cdkDrag>
+          <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: child }"></ng-container>
         </div>
-      }
-      @case ('checkbox') {
-        <div class="item-content checkbox">
-          <input type="checkbox" disabled />
-          <label>{{ item.label }}</label>
-        </div>
-      }
-      @case ('label') {
-        <p class="item-content label-text">{{ item.text }}</p>
-        <!-- <p-button icon="pi pi-trash"  [outlined]="true" severity="danger" size="small" (click)="deleteControl(item)" /> -->
-      }
-      @case ('form-group') {
-        <div class="item-content group-content">
-          <strong class="group-title">{{ item.formGroupName }}</strong>
-          <!-- This is the nested drop zone -->
-          <div cdkDropList [id]="item.id" [cdkDropListData]="item.children" [cdkDropListConnectedTo]="formState.canvasDropListIds()" (cdkDropListDropped)="onDrop($event)"
-            class="group-drop-zone">
-            @for (child of item.children; track child.id) {
-              <div class="canvas-item-wrapper" cdkDrag>
-                <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: child }"></ng-container>
-              </div>
-            } @empty {
-              <div class="empty-group-message">Drop items here</div>
+        } @empty {
+        <div class="empty-group-message">Drop items here</div>
+        }
+      </div>
+    </div>
+    }
+    <!-- --- GRID LAYOUT --- -->
+    @case ('grid-layout') {
+    <div class="item-content grid-layout-content">
+      <strong class="group-title">Layout container</strong>
+      <div cdkDropList [id]="item.baseCanvasItemId" [cdkDropListData]="item.children"
+        [cdkDropListConnectedTo]="formState.canvasDropListIds()" (cdkDropListDropped)="onDrop($event)"
+        class="grid-drop-zone">
+        @for (row of getGridCells(item.rows, item.columns); track $index) {
+        <div class="grid-row flex w-full">
+          @for (cell of row; track $index) {
+          <div class="grid-column flex-1">
+            @if (item.children && item.children.length > cell.index) {
+            <div class="canvas-item-wrapper is-grid-child" cdkDrag>
+              <ng-container
+                *ngTemplateOutlet="itemTemplate; context: { $implicit: item.children[cell.index] }"></ng-container>
+            </div>
+            } @else {
+            <div class="empty-group-message">
+              Drop controls here {{cell | json}}
+            </div>
             }
           </div>
+          }
         </div>
-      }
-      <!-- --- NEW RENDER LOGIC --- -->
-      @case ('grid-layout') {
-        <div class="item-content grid-layout-content">
-          <strong class="group-title">Layout container</strong>
-          <div cdkDropList [id]="item.id" [cdkDropListData]="item.children"
-            [cdkDropListConnectedTo]="formState.canvasDropListIds()" (cdkDropListDropped)="onDrop($event)"
-            class="grid-drop-zone">
-            @for (row of getGridCells(item.rows, item.columns); track $index) {
-              <div class="grid-row flex w-full">
-                @for (cell of row; track $index) {
-                  <div class="grid-column flex-1">
-                    @if (item.children && item.children.length > cell.index) {
-                      <div class="canvas-item-wrapper is-grid-child" cdkDrag>
-                        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item.children[cell.index] }"></ng-container>
-                      </div>
-                    } @else {
-                      <div class="empty-group-message">
-                        Drop controls here {{cell | json}}
-                      </div>
-                    }
-                  </div>
-                }
-              </div>
-            }
-          </div>
-        </div>
-      }
+        }
+      </div>
+    </div>
+    }
 
-      
+
     }
     <div class="item-handle" cdkDragHandle>
       <span class="mr-3">

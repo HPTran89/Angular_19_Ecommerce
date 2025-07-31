@@ -39,7 +39,7 @@ export class CanvasComponent {
       const toolboxItem = event.item.data as ToolboxItem;
       const newItem = {
         ...toolboxItem.build(),
-        id: `${toolboxItem.type}-${++this.lastId}`,
+        baseCanvasItemId: `${toolboxItem.type}-${++this.lastId}`,
       } as CanvasItem;
 
       // Manually add the new, transformed item to the target list.
@@ -85,7 +85,7 @@ export class CanvasComponent {
    */
   private removeItemById(items: CanvasItem[], id: string): CanvasItem[] {
     return items
-      .filter(item => item.id !== id)
+      .filter(item => item.baseCanvasItemId !== id)
       .map(item =>
         item.type === 'form-group' || item.type === 'grid-layout'
           ? { ...item, children: this.removeItemById(item.children, id) }
@@ -94,7 +94,7 @@ export class CanvasComponent {
   }
 
   deleteControl(item: CanvasItem): void {
-    const updated = this.removeItemById(this.formState.canvasItems(), item.id);
+    const updated = this.removeItemById(this.formState.canvasItems(), item.baseCanvasItemId);
     this.formState.updateItems(updated);
   }
 

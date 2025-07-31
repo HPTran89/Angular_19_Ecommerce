@@ -5,14 +5,14 @@ import {
   FormControl,
   FormGroup,
 } from '@angular/forms';
-import { CanvasItem, FormGroupItem } from './models/canvas-item.model';
+import { CanvasItem } from './models/canvas-item.model';
 
 // Helper function to recursively find all drop list IDs
 function getDropListIds(items: CanvasItem[]): string[] {
   let ids: string[] = [];
   for (const item of items) {
     if (item.type === 'form-group' || item.type === 'grid-layout') {
-      ids.push(item.id);
+      ids.push(item.baseCanvasItemId);
       ids = ids.concat(getDropListIds(item.children));
     }
   }
