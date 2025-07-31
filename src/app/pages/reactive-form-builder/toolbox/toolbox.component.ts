@@ -61,5 +61,15 @@ export class ToolboxComponent {
         };
       },
     },
+    {
+      name: 'Grid Layout',
+      type: 'grid-layout',
+      build: () => ({
+        type: 'grid-layout',
+        columns: 2, // Default to a 2-column layout
+        rows: 3,
+        children: [],
+      }),
+    }
   ]);
 }

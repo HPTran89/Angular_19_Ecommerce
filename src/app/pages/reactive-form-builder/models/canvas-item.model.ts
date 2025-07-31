@@ -3,14 +3,16 @@ export type CanvasItem =
   | FormInputItem
   | FormCheckboxItem
   | FormLabelItem
-  | FormGroupItem;
+  | FormGroupItem
+  | GridLayoutItem;
 
 // The different types of items, used for rendering and logic
 export type CanvasItemType =
   | 'text-input'
   | 'checkbox'
   | 'label'
-  | 'form-group';
+  | 'form-group'
+  | 'grid-layout';
 
 // Base interface with common properties for all canvas items
 export interface BaseCanvasItem {
@@ -42,4 +44,11 @@ export interface FormGroupItem extends BaseCanvasItem {
   formGroupName: string;
   // A form group can contain other items, enabling nesting
   children: CanvasItem[];
+}
+
+export interface GridLayoutItem extends BaseCanvasItem {
+  type: 'grid-layout';
+  columns: number; // The number of columns in the grid
+  rows: number;
+  children: CanvasItem[]; // The controls nested inside the grid
 }

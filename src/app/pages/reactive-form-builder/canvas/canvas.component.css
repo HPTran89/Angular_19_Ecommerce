@@ -105,3 +105,40 @@
   color: #aaa;
   padding: 1rem;
 }
+
+/* --- NEW STYLES --- */
+
+/* Style the grid container itself */
+.canvas-item.is-group {
+  /* This now applies to form-group and grid-layout */
+  border-color: #1890ff;
+  background-color: #f7faff;
+}
+
+.grid-layout-content {
+  width: 100%;
+}
+
+.grid-drop-zone {
+  display: grid;
+  gap: 1rem; /* Spacing between grid items */
+}
+
+.grid-column {
+  background-color: #fff;
+  min-height: 80px;
+  padding: 1rem;
+  border: 1px dashed #b1d9ff;
+  border-radius: 4px;
+}
+
+/* We want children of a grid to take up the full cell height */
+.canvas-item-wrapper.is-grid-child {
+  height: 100%;
+  margin-bottom: 0; /* Remove default bottom margin */
+}
+
+.is-grid-child .canvas-item {
+  height: 100%;
+  box-sizing: border-box;
+}
