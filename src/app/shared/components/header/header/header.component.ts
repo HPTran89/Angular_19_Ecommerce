@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MegaMenuItem } from 'primeng/api';
-import { MegaMenu } from 'primeng/megamenu';
+// import { MegaMenu } from 'primeng/megamenu';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { AvatarModule } from 'primeng/avatar';
@@ -9,7 +9,7 @@ import { LoginComponent } from "../../../../pages/auth/login/login.component";
 
 @Component({
   selector: 'app-header',
-  imports: [MegaMenu, ButtonModule, CommonModule, AvatarModule, LoginComponent],
+  imports: [ButtonModule, CommonModule, AvatarModule, LoginComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })

@@ -1,76 +1,98 @@
+
 <div class="canvas-header">Form Canvas</div>
-    <div
-      cdkDropList
-      id="canvas-list"
-      [cdkDropListData]="formState.canvasItems()"
-      (cdkDropListDropped)="onDrop($event)"
-      class="canvas-drop-zone"
-    >
-      @for (item of formState.canvasItems(); track item.id) {
-        <div class="canvas-item-wrapper" cdkDrag>
-          <!-- Using a template to render items, allows for recursion -->
-          <ng-container
-            *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"
-          ></ng-container>
-        </div>
-      } @empty {
-        <div class="empty-canvas-message">
-          Drop items from the toolbox here
+<div
+  cdkDropList
+  id="canvas-list"
+  [cdkDropListData]="formState.canvasItems()"
+  [cdkDropListConnectedTo]="formState.canvasDropListIds()"
+  (cdkDropListDropped)="onDrop($event)"
+  class="canvas-drop-zone"
+>
+  @for (item of formState.canvasItems(); track item.id) {
+    <div class="canvas-item-wrapper" cdkDrag>
+      <!-- Using a template to render items, allows for recursion -->
+      <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+    </div>
+  } @empty {
+    <div class="empty-canvas-message">
+      Drop items from the toolbox here
+    </div>
+  }
+</div>
+
+<!-- Recursive Template for rendering items -->
+<ng-template #itemTemplate let-item>
+  <div class="canvas-item" [class.is-group]="item.type === 'form-group' || item.type === 'grid-layout'">
+    <!-- Render based on item type -->
+    @switch (item.type) {
+      @case ('text-input') {
+        <div class="item-content">
+          <label>{{ item.label }}</label>
+          <input type="text" [placeholder]="item.placeholder" disabled />
         </div>
       }
-    </div>
-
-    <!-- Recursive Template for rendering items -->
-    <ng-template #itemTemplate let-item>
-      <div class="canvas-item" [class.is-group]="item.type === 'form-group'">
-        <!-- Render based on item type -->
-        @switch (item.type) {
-          @case ('text-input') {
-            <div class="item-content">
-              <label>{{ item.label }}</label>
-              <input type="text" [placeholder]="item.placeholder" disabled />
-            </div>
-          }
-          @case ('checkbox') {
-            <div class="item-content checkbox">
-              <input type="checkbox" disabled />
-              <label>{{ item.label }}</label>
-            </div>
-          }
-          @case ('label') {
-            <p class="item-content label-text">{{ item.text }}</p>
-             <!-- <p-button icon="pi pi-trash"  [outlined]="true" severity="danger" size="small" (click)="deleteControl(item)" /> -->
-          }
-          @case ('form-group') {
-            <div class="item-content group-content">
-              <strong class="group-title">{{ item.formGroupName }}</strong>
-              <!-- This is the nested drop zone -->
-              <div
-                cdkDropList
-                [id]="item.id"
-                [cdkDropListData]="item.children"
-                (cdkDropListDropped)="onDrop($event, item)"
-                class="group-drop-zone"
-              >
-                @for (child of item.children; track child.id) {
-                  <div class="canvas-item-wrapper" cdkDrag>
-                    <ng-container
-                      *ngTemplateOutlet="itemTemplate; context: { $implicit: child }"
-                    ></ng-container>
+      @case ('checkbox') {
+        <div class="item-content checkbox">
+          <input type="checkbox" disabled />
+          <label>{{ item.label }}</label>
+        </div>
+      }
+      @case ('label') {
+        <p class="item-content label-text">{{ item.text }}</p>
+        <!-- <p-button icon="pi pi-trash"  [outlined]="true" severity="danger" size="small" (click)="deleteControl(item)" /> -->
+      }
+      @case ('form-group') {
+        <div class="item-content group-content">
+          <strong class="group-title">{{ item.formGroupName }}</strong>
+          <!-- This is the nested drop zone -->
+          <div cdkDropList [id]="item.id" [cdkDropListData]="item.children" [cdkDropListConnectedTo]="formState.canvasDropListIds()" (cdkDropListDropped)="onDrop($event)"
+            class="group-drop-zone">
+            @for (child of item.children; track child.id) {
+              <div class="canvas-item-wrapper" cdkDrag>
+                <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: child }"></ng-container>
+              </div>
+            } @empty {
+              <div class="empty-group-message">Drop items here</div>
+            }
+          </div>
+        </div>
+      }
+      <!-- --- NEW RENDER LOGIC --- -->
+      @case ('grid-layout') {
+        <div class="item-content grid-layout-content">
+          <strong class="group-title">Layout container</strong>
+          <div cdkDropList [id]="item.id" [cdkDropListData]="item.children"
+            [cdkDropListConnectedTo]="formState.canvasDropListIds()" (cdkDropListDropped)="onDrop($event)"
+            class="grid-drop-zone">
+            @for (row of getGridCells(item.rows, item.columns); track $index) {
+              <div class="grid-row flex w-full">
+                @for (cell of row; track $index) {
+                  <div class="grid-column flex-1">
+                    @if (item.children && item.children.length > cell.index) {
+                      <div class="canvas-item-wrapper is-grid-child" cdkDrag>
+                        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item.children[cell.index] }"></ng-container>
+                      </div>
+                    } @else {
+                      <div class="empty-group-message">
+                        Drop controls here {{cell | json}}
+                      </div>
+                    }
                   </div>
-                } @empty {
-                  <div class="empty-group-message">Drop items here</div>
                 }
               </div>
-            </div>
-          }
-        }
-        <div class="item-handle" cdkDragHandle>
-            <span class="mr-3">
-                <!-- <app-button-demo  btnSeverity="warn" btnText="🗑️ delete"/> -->
-                 <p-button icon="pi pi-trash"  [outlined]="true" severity="danger" size="small" (click)="deleteControl(item)" />
-            </span>
-           <span>⠿</span> 
+            }
+          </div>
         </div>
-      </div>
-    </ng-template>
+      }
+
+      
+    }
+    <div class="item-handle" cdkDragHandle>
+      <span class="mr-3">
+        <!-- <app-button-demo  btnSeverity="warn" btnText="🗑️ delete"/> -->
+        <p-button icon="pi pi-trash" [outlined]="true" severity="danger" size="small" (click)="deleteControl(item)" />
+      </span>
+      <span>⠿</span>
+    </div>
+  </div>
+</ng-template>

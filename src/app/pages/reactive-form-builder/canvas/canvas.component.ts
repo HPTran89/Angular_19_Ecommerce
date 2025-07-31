@@ -9,6 +9,7 @@ import {
   CdkDragDrop,
   DragDropModule,
   moveItemInArray,
+  transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { FormStateService } from '../form-state.service';
 import {
@@ -24,7 +25,7 @@ import { ButtonModule } from 'primeng/button';
   standalone: true,
   imports: [CommonModule, DragDropModule, ButtonModule],
   // We will use a recursive template via ng-template
-  templateUrl:'./canvas.component.html',
+  templateUrl: './canvas.component.html',
   styleUrl: './canvas.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,28 +33,51 @@ export class CanvasComponent {
   readonly formState = inject(FormStateService);
   private lastId = 0;
 
-  onDrop(event: CdkDragDrop<CanvasItem[]>, targetGroup?: FormGroupItem): void {
-    if (event.previousContainer === event.container) {
-      // Item was moved within the same list (reordering)
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-      this.formState.updateItems([...this.formState.canvasItems()]);
-    } else {
-      // Item was dropped from the toolbox (a new item)
+  onDrop(event: CdkDragDrop<CanvasItem[], any>) {
+    if (this.isToolboxDrop(event)) {
+      // --- THIS IS THE NEW, CORRECT LOGIC FOR TOOLBOX DROPS ---
       const toolboxItem = event.item.data as ToolboxItem;
       const newItem = {
         ...toolboxItem.build(),
         id: `${toolboxItem.type}-${++this.lastId}`,
       } as CanvasItem;
-      
-      const targetList = targetGroup ? targetGroup.children : this.formState.canvasItems();
-      targetList.splice(event.currentIndex, 0, newItem);
-      
-      this.formState.updateItems([...this.formState.canvasItems()]);
+
+      // Manually add the new, transformed item to the target list.
+      event.container.data.splice(event.currentIndex, 0, newItem);
+
+    } else if (event.previousContainer === event.container) {
+      // Reordering within the same list.
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      // Transferring an item between two different canvas lists.
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     }
+
+    // --- CRITICAL FINAL STEP ---
+    // After any mutation, we must set the signal with a new, deep-cloned object
+    // to ensure Angular's change detection fires correctly for nested changes.
+    const newItemsState = JSON.parse(
+      JSON.stringify(this.formState.canvasItems())
+    );
+    this.formState.updateItems(newItemsState);
+  }
+
+  /**
+   * Type guard to check if an item was dragged from the toolbox.
+   */
+  private isToolboxDrop(
+    event: CdkDragDrop<CanvasItem[], any>
+  ): boolean {
+    return event.previousContainer.id === 'toolbox-list';
   }
 
   /**
@@ -63,7 +87,7 @@ export class CanvasComponent {
     return items
       .filter(item => item.id !== id)
       .map(item =>
-        item.type === 'form-group'
+        item.type === 'form-group' || item.type === 'grid-layout'
           ? { ...item, children: this.removeItemById(item.children, id) }
           : item
       );
@@ -72,5 +96,20 @@ export class CanvasComponent {
   deleteControl(item: CanvasItem): void {
     const updated = this.removeItemById(this.formState.canvasItems(), item.id);
     this.formState.updateItems(updated);
+  }
+
+  getColumnsArray(columns: number): number[] {
+    return Array.from({ length: columns }, (_, i) => i);
+  }
+
+  getGridCells(rows: number, columns: number): { row: number, col: number, index: number }[][] {
+    const grid =  Array.from({ length: rows }, (_, row) =>
+      Array.from({ length: columns }, (_, col) => ({
+        row,
+        col,
+        index: row * columns + col
+      }))
+    );
+    return grid;
   }
 }
