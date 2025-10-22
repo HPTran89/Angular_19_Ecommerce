@@ -27,29 +27,30 @@
         @switch (item.type) {
           @case ('text-input') {
             <div class="item-content">
-              <label>{{ item.label }}</label>
-              <input type="text" [placeholder]="item.placeholder" disabled />
+              <label [htmlFor]="item.id">{{ item.label }}</label>
+              <input class="mt-2" type="text" [id]="item.id" [placeholder]="item.placeholder" />
             </div>
           }
           @case ('checkbox') {
             <div class="item-content checkbox">
-              <input type="checkbox" disabled />
-              <label>{{ item.label }}</label>
+              <input type="checkbox"  [id]="item.id"/>
+              <label [htmlFor]="item.id">{{ item.label }}</label>
             </div>
           }
           @case ('label') {
-            <p class="item-content label-text">{{ item.text }}</p>
-             <!-- <p-button icon="pi pi-trash"  [outlined]="true" severity="danger" size="small" (click)="deleteControl(item)" /> -->
+             <div class="item-content">
+              <label [htmlFor]="item.id">{{ item.text }} <span class="pi-question-circle" pInputText pTooltip="Enter your username" tooltipPosition="right" style="font-size: .5rem;"></span></label>
+               <input class="mt-2" type="text" placeholder="Add your text here..." [id]="item.id">
+            </div>
           }
-          @case ('form-group') {
+           @case ('form-group') {
             <div class="item-content group-content">
               <strong class="group-title">{{ item.formGroupName }}</strong>
-              <!-- This is the nested drop zone -->
               <div
                 cdkDropList
                 [id]="item.id"
                 [cdkDropListData]="item.children"
-                (cdkDropListDropped)="onDrop($event, item)"
+                (cdkDropListDropped)="onDrop($event)" 
                 class="group-drop-zone"
               >
                 @for (child of item.children; track child.id) {
@@ -67,7 +68,6 @@
         }
         <div class="item-handle" cdkDragHandle>
             <span class="mr-3">
-                <!-- <app-button-demo  btnSeverity="warn" btnText="🗑️ delete"/> -->
                  <p-button icon="pi pi-trash"  [outlined]="true" severity="danger" size="small" (click)="deleteControl(item)" />
             </span>
            <span>⠿</span> 

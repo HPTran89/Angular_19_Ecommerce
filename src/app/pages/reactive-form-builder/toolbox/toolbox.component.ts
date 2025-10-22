@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ToolboxItem } from '../models/toolbox-item.model';
-import { CanvasItem } from '../models/canvas-item.model';
 
 let controlId = 0;
 

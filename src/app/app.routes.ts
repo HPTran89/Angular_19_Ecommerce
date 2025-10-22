@@ -24,7 +24,7 @@ export const routes: Routes = [
     },
     {
         path: 'reactive-form-builder',
-        loadComponent: () => import('./pages/reactive-form-builder/reative-form-builder/reative-form-builder.component').then(m => m.ReativeFormBuilderComponent)
+        loadComponent: () => import('./pages/reactive-form-builder/reative-form-builder/reactive-form-builder.component').then(m => m.ReativeFormBuilderComponent)
     }
     // {
     //     path: 'my-products/:id',

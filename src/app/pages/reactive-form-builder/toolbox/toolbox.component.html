@@ -3,7 +3,6 @@
       cdkDropList
       id="toolbox-list"
       [cdkDropListData]="toolboxItems()"
-      [cdkDropListConnectedTo]="['canvas-list']"
       class="toolbox-items"
     >
       @for (item of toolboxItems(); track item.type) {
